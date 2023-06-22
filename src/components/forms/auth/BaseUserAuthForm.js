@@ -6,13 +6,15 @@ export default function BaseForm({
   submitUser,
   signup,
 }) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConfirmation, setPasswordConfirmation] = useState('');
-  const [email, setEmail] = useState('');
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    submitUser(formData.username, formData.password, signup ? formData.email : undefined)
+  }
 
   return (
-    <form className="space-y-6" action="#">
+    <form className="space-y-6" action="#" onSubmit={(e) => handleSubmit(e)}>
       <Fragment>
         <div className="items-center justify-between">
           <label htmlFor="username" className="block text-sm text-left font-medium leading-6 text-white">
@@ -24,8 +26,7 @@ export default function BaseForm({
               name="username"
               type="username"
               required
-              value={username}
-              onChange={(v) => setUsername(v.target.value)}
+              defaultValue={''}
               className="block w-full rounded-md border-0 px-2 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
             />
           </div>
@@ -43,8 +44,7 @@ export default function BaseForm({
                 name="email"
                 type="email"
                 required
-                value={email}
-                onChange={(v) => setEmail(v.target.value)}
+                defaultValue={''}
                 className="block w-full rounded-md border-0 px-2 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
               />
             </div>
@@ -75,8 +75,7 @@ export default function BaseForm({
             type="password"
             autoComplete="new-password"
             required
-            value={password}
-            onChange={(v) => setPassword(v.target.value)}
+            defaultValue={''}
             className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
           />
         </div>
@@ -92,8 +91,7 @@ export default function BaseForm({
                 type="password"
                 autoComplete="new-password"
                 required
-                value={passwordConfirmation}
-                onChange={(v) => setPasswordConfirmation(v.target.value)}
+                defaultValue={''}
                 className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
               />
             </div>
@@ -104,8 +102,7 @@ export default function BaseForm({
       </Fragment>
       <div>
         <button
-          type="button"
-          onClick={() => submitUser(username, password, signup ? email : undefined)}
+          type="submit"
           className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
         >
           {buttonTitle}
