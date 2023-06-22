@@ -1,11 +1,11 @@
-import { Fragment, useContext, useEffect } from 'react';	
+import { Fragment, useContext } from 'react';	
 import { Menu, Popover, Transition } from '@headlessui/react';	
 import { Bars3Icon, XMarkIcon, Cog8ToothIcon } from '@heroicons/react/24/outline';	
-import { MagnifyingGlassIcon, PlusIcon } from '@heroicons/react/20/solid';	
-import { UserContext } from '../../contexts/UserContext';	
+
+import { TaskManagerContext } from '../../contexts/TaskManagerContext';	
 
 export default function MainHeader() {	
-  const { user } = useContext(UserContext);	
+  const { user } = useContext(TaskManagerContext);	
 
   const userNavigation = [	
     { name: 'Sign out', href: '#' },	

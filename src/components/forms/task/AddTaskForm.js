@@ -1,18 +1,15 @@
 import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import BaseTaskForm from './BaseTaskForm';
 import { REACT_APP_TASK_MANAGER_API_URL } from '../../../constants';
-import { UserContext } from '../../../contexts/UserContext';
+import { TaskManagerContext } from '../../../contexts/TaskManagerContext';
 
 export default function AddTaskForm({
   open,
   setOpen
 }) {
-  const { user, setUser } = useContext(UserContext);
-  const navigate = useNavigate();
-  const addNewTask = async (username, password) => {
-    console.log('User: ', user)
+  const { user, setUser } = useContext(TaskManagerContext);
+  const addNewTask = async (task) => {
     try {
       const response = await (await fetch(`${REACT_APP_TASK_MANAGER_API_URL}/user/${user._id}/task`, {
         method: "POST",
@@ -20,14 +17,15 @@ export default function AddTaskForm({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username,
-          password,
+          ...task,
+          user: user._id,
         }),
       })).json();
       if (response.error) {
         throw new Error(response.errorMessage)
       } else if (response.data) {
-        //navigate('/task-manager');
+        console.log('Response: ', response.data)
+        setUser(response.data);
       } else {
         throw new Error('No response from the server')
       }

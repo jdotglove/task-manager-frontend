@@ -14,12 +14,22 @@ export default function BaseTaskForm({
   const [description, setDescription] = useState('');
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
-  const submitNewTask = () => {
-    addNewTask({
-      date: new Date(date),
+  const submitNewTask = async () => {
+    await addNewTask({
+      dueDate: new Date(date),
       description,
       title,
     });
+    setDescription('');
+    setTitle('');
+    setDate('');
+    setOpen(false);
+  }
+  const handleClose = () => {
+    setDescription('');
+    setTitle('');
+    setDate('');
+    setOpen(false)
   }
   const validInput = () => {
     return !(
@@ -125,7 +135,7 @@ export default function BaseTaskForm({
                   <button
                     type="button"
                     className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:col-start-1 sm:mt-0"
-                    onClick={() => setOpen(false)}
+                    onClick={() => handleClose()}
                     ref={cancelButtonRef}
                   >
                     Cancel
