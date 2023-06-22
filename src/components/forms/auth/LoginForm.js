@@ -11,7 +11,7 @@ export default function LoginForm({
         </h2>
       </div>
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <BaseUserAuthForm submitUser={loginUser} buttonTitle={"Login"}/>
+        <BaseUserAuthForm submitUser={loginUser} buttonTitle={"Login"} />
       </div>
     </div>
   )

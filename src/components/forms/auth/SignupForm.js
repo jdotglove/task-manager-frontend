@@ -11,7 +11,7 @@ export default function SignupForm({
         </h2>
       </div>
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <BaseUserAuthForm signup submitUser={signupUser} buttonTitle={"Signup"}/>
+        <BaseUserAuthForm signup submitUser={signupUser} buttonTitle={"Signup"} />
       </div>
     </div>
   )

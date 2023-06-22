@@ -17,7 +17,7 @@ export default function TaskManagerProvider({ children }) {
       if (response.error) {
         throw new Error(response.errorMessage);
       } else if (response.data) {
-        setTasks(response.data);
+        setUser(response.data)
       } else {
         throw new Error('No response from server.');
       }
