@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import MainHeader from '../components/headers/MainHeader';
@@ -10,6 +10,7 @@ import '../App.css';
 export default function Login() {
   const { user, setUser } = useContext(TaskManagerContext);
   const navigate = useNavigate();
+  const [loginError, setLoginError] = useState(false);
   const submitLogin = async (username, password) => {
     try {
       const response = await (await fetch(`${REACT_APP_TASK_MANAGER_API_URL}/login`, {
@@ -23,7 +24,10 @@ export default function Login() {
         }),
       })).json();
       if (response.error) {
-        console.error(response.errorMessage);
+        console.error(response);
+        if (response.errorMessage === 'User Not Found.') {
+          setLoginError(true);
+        }
         throw new Error(response.errorMessage);
       } else if (response.data) {
         setUser(response.data);
@@ -45,7 +49,7 @@ export default function Login() {
             <div>User Logged In</div>
           ) : (
             <div className="col text-center">
-              <LoginForm loginUser={submitLogin} />
+              <LoginForm loginUser={submitLogin} loginError={loginError} />
             </div>
           )}
         </div>

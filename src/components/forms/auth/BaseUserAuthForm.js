@@ -1,10 +1,10 @@
-import { Fragment, useState } from 'react';
-import { ExclamationCircleIcon } from '@heroicons/react/20/solid';
+import { Fragment, useEffect, useState } from 'react';
 
 export default function BaseForm({
   buttonTitle,
   submitUser,
   signup,
+  loginError,
 }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -16,10 +16,22 @@ export default function BaseForm({
     e.preventDefault();
     submitUser(username, password, signup ? email : undefined)
   }
+  useEffect(() => {
+    const handleLoginErrorUpdate = () => {
+      if (loginError) {
+        setShowError(true)
+        setPasswordClass("block w-full rounded-md border-0 py-1.5 pr-10 text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500 sm:text-sm sm:leading-6")
+      } else {
+        setShowError(false)
+        setPasswordClass('block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6'); 
+      }
+    }
+    handleLoginErrorUpdate();
+  }, [loginError]);
   const validPasswordCheck = (confrim) => (password === confrim);
   const handlePasswordConfirmation = (e) => {
     setPasswordConfirmation(e.target.value);
-    if (!validPasswordCheck(e.target.value)) {
+    if ((!validPasswordCheck(e.target.value))) {
       setShowError(true)
       setPasswordClass("block w-full rounded-md border-0 py-1.5 pr-10 text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500 sm:text-sm sm:leading-6")
     } else {
@@ -119,7 +131,7 @@ export default function BaseForm({
                 <Fragment></Fragment>
               ) : (
                 <Fragment>
-                  <p className="mt-2 text-sm text-red-600" id="email-error">
+                  <p className="mt-2 text-sm text-red-600" id="password-error">
                     Passwords do not match.
                   </p>
                 </Fragment>
@@ -127,7 +139,17 @@ export default function BaseForm({
             </div>
           </Fragment>
         ) : (
-          <Fragment></Fragment>
+          <Fragment>
+            {!showError ? (
+              <Fragment></Fragment>
+            ) : (
+              <Fragment>
+                <p className="text-sm text-red-600" id="password-error">
+                  Incorrect username or password.
+                </p>
+              </Fragment>
+            )}
+          </Fragment>
         )}
       </Fragment>
       <div>

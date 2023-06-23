@@ -2,7 +2,6 @@ import dayjs from 'dayjs';
 import { Fragment, useContext, useState } from 'react';
 import { TrashIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 
-import { ArrowLongLeftIcon, ArrowLongRightIcon } from '@heroicons/react/20/solid';
 import EditTaskForm from '../forms/task/EditTaskForm';
 import { SORT_DIRECTIONS } from '../../constants';
 import { TaskManagerContext } from '../../contexts/TaskManagerContext';
@@ -31,10 +30,10 @@ export default function TaskTable({
   }
   const handleSortClick = (columnTitle) => {
     if (columnTitle === activeSortCol) {
-      if (activeSortDirection === SORT_DIRECTIONS.ASC_SORT) {
-        setActiveSortDirection(SORT_DIRECTIONS.DSC_SORT);
-      } else {
+      if (activeSortDirection === SORT_DIRECTIONS.DSC_SORT) {
         setActiveSortDirection(SORT_DIRECTIONS.ASC_SORT);
+      } else {
+        setActiveSortDirection(SORT_DIRECTIONS.DSC_SORT);
       }
     } else {
       setActiveSortCol(columnTitle);
@@ -74,7 +73,7 @@ export default function TaskTable({
                 <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-0">
                   <button onClick={() => handleSortClick('title')} className="group inline-flex">
                     Title
-                    <span className="invisible ml-2 flex-none rounded text-gray-400 group-hover:visible group-focus:visible">
+                    <span className={`${ activeSortCol === 'title' ? '' : 'invisible'} ml-2 flex-none rounded text-gray-400 group-hover:visible group-focus:visible`}>
                       {chevronIcon('title')}
                     </span>
                   </button>
@@ -85,7 +84,7 @@ export default function TaskTable({
                 <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-white">
                   <button onClick={() => handleSortClick('status')} className="group inline-flex">
                     Status
-                    <span className="invisible ml-2 flex-none rounded text-gray-400 group-hover:visible group-focus:visible">
+                    <span className={`${ activeSortCol === 'status' ? '' : 'invisible'} ml-2 flex-none rounded text-gray-400 group-hover:visible group-focus:visible`}>
                       {chevronIcon('status')}
                     </span>
                   </button>
@@ -93,7 +92,7 @@ export default function TaskTable({
                 <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-white">
                   <button onClick={() => handleSortClick('dueDate')} className="group inline-flex">
                     Due Date
-                    <span className="invisible ml-2 flex-none rounded text-gray-400 group-hover:visible group-focus:visible">
+                    <span className={`${ activeSortCol === 'dueDate' ? '' : 'invisible'} ml-2 flex-none rounded text-gray-400 group-hover:visible group-focus:visible`}>
                       {chevronIcon('dueDate')}
                     </span>
                   </button>
@@ -131,7 +130,9 @@ export default function TaskTable({
                         </button>
                       </td>
                       <td className="relative whitespace-nowrap text-red-700 py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                        <TrashIcon onClick={() => deleteTask(task._id)} className="h-6 w-6" aria-hidden="true" />
+                        <button onClick={() => deleteTask(task._id)}>
+                          <TrashIcon  className="h-6 w-6" aria-hidden="true" />
+                        </button>
                       </td>
                     </tr>
                   ))}

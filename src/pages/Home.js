@@ -8,8 +8,7 @@ class Home extends Component {
   render() {
     return (
       <main>
-        <MainHeader />
-        <div className="container sm:p-6">
+        <MainHeader noLogo />
           <div className="row pt-12">
             <div className="col text-center">
               <div className="text-3xl text-white font-bold mb-5">
@@ -35,7 +34,7 @@ class Home extends Component {
               </p>
             </div>
           </div>
-        </div>
+     
       </main>
     )
   }

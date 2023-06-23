@@ -1,7 +1,8 @@
 import BaseUserAuthForm from './BaseUserAuthForm';
 
 export default function LoginForm({
-  loginUser
+  loginUser,
+  loginError
 }) {
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -11,7 +12,7 @@ export default function LoginForm({
         </h2>
       </div>
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <BaseUserAuthForm submitUser={loginUser} buttonTitle={"Login"} />
+        <BaseUserAuthForm submitUser={loginUser} loginError={loginError} buttonTitle={"Login"} />
       </div>
     </div>
   )
