@@ -1,16 +1,35 @@
 import { Fragment, useState } from 'react';
-
+import { ExclamationCircleIcon } from '@heroicons/react/20/solid';
 
 export default function BaseForm({
   buttonTitle,
   submitUser,
   signup,
 }) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const [passwordClass, setPasswordClass] = useState('block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6'); 
+  const [email, setEmail] = useState('');
+  const [showError, setShowError] = useState(false)
   const handleSubmit = (e) => {
     e.preventDefault();
-    const form = e.target;
-    const formData = new FormData(form);
-    submitUser(formData.username, formData.password, signup ? formData.email : undefined)
+    submitUser(username, password, signup ? email : undefined)
+  }
+  const validPasswordCheck = (confrim) => (password === confrim);
+  const handlePasswordConfirmation = (e) => {
+    setPasswordConfirmation(e.target.value);
+    if (!validPasswordCheck(e.target.value)) {
+      setShowError(true)
+      setPasswordClass("block w-full rounded-md border-0 py-1.5 pr-10 text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500 sm:text-sm sm:leading-6")
+    } else {
+      setShowError(false)
+      setPasswordClass('block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6'); 
+    }
+  }
+
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
   }
 
   return (
@@ -26,7 +45,8 @@ export default function BaseForm({
               name="username"
               type="username"
               required
-              defaultValue={''}
+              value={username}
+              onInput={e => setUsername(e.target.value)}
               className="block w-full rounded-md border-0 px-2 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
             />
           </div>
@@ -44,7 +64,8 @@ export default function BaseForm({
                 name="email"
                 type="email"
                 required
-                defaultValue={''}
+                value={email}
+                onInput={e => setEmail(e.target.value)}
                 className="block w-full rounded-md border-0 px-2 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
               />
             </div>
@@ -64,9 +85,6 @@ export default function BaseForm({
               <label htmlFor="password" className="block mb-2 text-left font-medium leading-4 text-white">
                 Password
               </label>
-              <a href="/#" className="font-semibold text-indigo-400 hover:text-indigo-300">
-                Forgot password?
-              </a>
             </div>
           )}
           <input
@@ -75,8 +93,9 @@ export default function BaseForm({
             type="password"
             autoComplete="new-password"
             required
-            defaultValue={''}
-            className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+            value={password}
+            onInput={e => handlePassword(e)}
+            className={passwordClass}
           />
         </div>
         {signup ? (
@@ -91,9 +110,20 @@ export default function BaseForm({
                 type="password"
                 autoComplete="new-password"
                 required
-                defaultValue={''}
-                className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                aria-invalid={showError}
+                value={passwordConfirmation}
+                onInput={e => handlePasswordConfirmation(e)}
+                className={passwordClass}
               />
+              { !showError ? (
+                <Fragment></Fragment>
+              ) : (
+                <Fragment>
+                  <p className="mt-2 text-sm text-red-600" id="email-error">
+                    Passwords do not match.
+                  </p>
+                </Fragment>
+              )}
             </div>
           </Fragment>
         ) : (

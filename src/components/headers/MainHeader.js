@@ -4,7 +4,9 @@ import { Bars3Icon, XMarkIcon, Cog8ToothIcon } from '@heroicons/react/24/outline
 
 import { TaskManagerContext } from '../../contexts/TaskManagerContext';
 
-export default function MainHeader() {
+export default function MainHeader({
+  signOut
+}) {
   const { user } = useContext(TaskManagerContext);
 
   const userNavigation = [
@@ -51,15 +53,15 @@ export default function MainHeader() {
                         {userNavigation.map((item) => (
                           <Menu.Item key={item.name}>
                             {({ active }) => (
-                              <a
-                                href={item.href}
+                              <button
+                                onClick
                                 className={classNames(
                                   active ? 'bg-gray-100' : '',
                                   'block px-4 py-2 text-sm text-gray-700'
                                 )}
                               >
                                 {item.name}
-                              </a>
+                              </button>
                             )}
                           </Menu.Item>
                         ))}
@@ -98,7 +100,6 @@ export default function MainHeader() {
               >
                 <Popover.Overlay className="fixed inset-0 z-20 bg-black bg-opacity-25" />
               </Transition.Child>
-
               <Transition.Child
                 as={Fragment}
                 enter="duration-150 ease-out"
@@ -133,13 +134,13 @@ export default function MainHeader() {
                     <div className="pb-2 pt-4">
                       <div className="mt-3 space-y-1 px-2">
                         {userNavigation.map((item) => (
-                          <a
+                          <button
+                            onClick={signOut}
                             key={item.name}
-                            href={item.href}
                             className="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800"
                           >
                             {item.name}
-                          </a>
+                          </button>
                         ))}
                       </div>
                     </div>

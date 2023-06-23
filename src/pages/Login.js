@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import MainHeader from '../components/headers/MainHeader';
 import { TaskManagerContext } from '../contexts/TaskManagerContext';
 import { REACT_APP_TASK_MANAGER_API_URL } from '../constants';
 import LoginForm from '../components/forms/auth/LoginForm';
@@ -22,6 +23,7 @@ export default function Login() {
         }),
       })).json();
       if (response.error) {
+        console.error(response.errorMessage);
         throw new Error(response.errorMessage);
       } else if (response.data) {
         setUser(response.data);
@@ -30,12 +32,13 @@ export default function Login() {
         throw new Error('No response from the server')
       }
     } catch (error) {
-      console.error('Error: ', error.message);
+      console.error('Error: ', error);
     }
   }
 
   return (
     <main>
+      <MainHeader />
       <div className="conatiner">
         <div className="row">
           {user ? (

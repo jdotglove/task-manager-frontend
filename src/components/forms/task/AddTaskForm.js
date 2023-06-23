@@ -27,7 +27,6 @@ export default function AddTaskForm({
       if (response.error) {
         throw new Error(response.errorMessage)
       } else if (response.data) {
-        console.log('Response: ', response.data)
         setUser(response.data);
       } else {
         throw new Error('No response from the server')
@@ -47,7 +46,6 @@ export default function AddTaskForm({
     setSelectedStatus(value);
   }
   const submitNewTask = async () => {
-    console.log('Date: ', date)
     await addNewTask({
       dueDate: dayjs(date).toDate(),
       description,

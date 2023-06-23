@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { TaskManagerContext } from '../contexts/TaskManagerContext';
 import AddTaskForm from '../components/forms/task/AddTaskForm';
 import TaskTable from '../components/tables/TaskTable';
+import MainHeader from '../components/headers/MainHeader';
 
 export default function Example() {
   const { user, loadTasks, tasks } = useContext(TaskManagerContext);
@@ -19,6 +20,7 @@ export default function Example() {
   }, [user]);
   return (
     <Fragment>
+    <MainHeader />
       <div className="min-h-full">
         <div className="bg-gray-900">
           <div className="mx-auto max-w-7xl">

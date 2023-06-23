@@ -2,11 +2,13 @@ import { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import '../App.css';
+import MainHeader from '../components/headers/MainHeader';
 
 class Home extends Component {
   render() {
     return (
       <main>
+        <MainHeader />
         <div className="container sm:p-6">
           <div className="row pt-12">
             <div className="col text-center">

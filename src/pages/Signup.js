@@ -5,6 +5,7 @@ import { REACT_APP_TASK_MANAGER_API_URL } from '../constants';
 import SignupForm from '../components/forms/auth/SignupForm';
 import '../App.css';
 import { TaskManagerContext } from '../contexts/TaskManagerContext';
+import MainHeader from '../components/headers/MainHeader';
 
 
 export default function Signup() {
@@ -24,7 +25,6 @@ export default function Signup() {
           password,
         }),
       })).json();
-      console.log('Response: ', response.data);
       if (response.error) {
         throw new Error(response.errorMessage)
       } else if (response.data) {
@@ -40,6 +40,7 @@ export default function Signup() {
 
   return (
     <main>
+    <MainHeader />
       <div className="conatiner">
         <div className="row">
           {user ? (

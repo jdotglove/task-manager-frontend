@@ -2,13 +2,14 @@ import dayjs from 'dayjs';
 import { Fragment, useContext, useState } from 'react';
 import { TrashIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 
+import { ArrowLongLeftIcon, ArrowLongRightIcon } from '@heroicons/react/20/solid';
 import EditTaskForm from '../forms/task/EditTaskForm';
 import { SORT_DIRECTIONS } from '../../constants';
 import { TaskManagerContext } from '../../contexts/TaskManagerContext';
 import { compareISOTimestamps, compareStrings } from '../../utils';
 
 
-
+const statuses = { 'Completed': 'text-green-400 ', 'In Progress': 'text-blue-400 ', 'Todo': 'text-yellow-400 ' }
 
 export default function TaskTable({
   tasks,
@@ -25,6 +26,9 @@ export default function TaskTable({
   const formatDate = (date) => {
     return dayjs(date).format('MM/DD/YYYY');
   }
+  const classNames = (...classes) => {
+    return classes.filter(Boolean).join(' ')
+  }
   const handleSortClick = (columnTitle) => {
     if (columnTitle === activeSortCol) {
       if (activeSortDirection === SORT_DIRECTIONS.ASC_SORT) {
@@ -36,7 +40,6 @@ export default function TaskTable({
       setActiveSortCol(columnTitle);
       setActiveSortDirection(SORT_DIRECTIONS.ASC_SORT);
     }
-    console.log(columnTitle);
   }
 
   const chevronIcon = (columnTitle) => {
@@ -112,7 +115,15 @@ export default function TaskTable({
                         {task.title}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{task.description}</td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{task.status}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
+                        <div className='row'>
+                          <div className='col'>
+                            <div className={classNames(statuses[task.status], 'flex-none rounded-full p-1')}>
+                              {task.status}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{formatDate(task.dueDate)}</td>
                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                         <button onClick={() => handleClick(task)} type="button" className="text-indigo-400 hover:text-indigo-300">

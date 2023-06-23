@@ -44,7 +44,6 @@ export default function EditTaskForm({
   const [date, setDate] = useState(new Date(task.dueDate).toISOString().slice(0, 10));
   const presetStatusIndex = TASK_STATUSES.findIndex(status => status.value === task.status)
   const [selectedStatus, setSelectedStatus] = useState(TASK_STATUSES[presetStatusIndex]);
-  console.log(date)
   const handleStatusChange = (value) => {
     setSelectedStatus(value);
   }
